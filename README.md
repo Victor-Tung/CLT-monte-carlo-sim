@@ -1,25 +1,21 @@
 # CLT-monte-carlo-sim
-R-based Monte Carlo study of how fast sampling distributions approach normality across distributions, sample sizes, and dependence
-
-## Overview
-
-The analyses compare symmetric, discrete, skewed, heavy-tailed, dependent, non-identically distributed, and irregular populations. Each analysis generates numerical summaries and visual diagnostics for evaluating how closely the sampling distribution resembles a normal distribution.
+R-based Monte Carlo study of how fast sampling distributions approach normality across distributions, sample sizes, and dependence. The analyses compare symmetric, discrete, skewed, heavy-tailed, dependent, non-identically distributed, and irregular populations. Each analysis generates numerical summaries and visual diagnostics for evaluating how closely the sampling distribution resembles a normal distribution.
 
 ## Repository Contents
 
 ### Core analyses
 
-- `01_standard_normal.qmd` — Normal population baseline.
-- `02_six_sided_die.qmd` — Discrete uniform population from 1 through 6.
-- `03_exponential.qmd` — Right-skewed Exponential population with rate 1.
-- `04_binomial_small.qmd` — Discrete Binomial(5, 0.10) population.
-- `05_cauchy.qmd` — Heavy-tailed Cauchy population without a finite ordinary mean or variance.
+- `01_standard_normal.qmd` - Normal population baseline.
+- `02_six_sided_die.qmd` - Discrete uniform population from 1 through 6.
+- `03_exponential.qmd` - Right-skewed Exponential population with rate 1.
+- `04_binomial_small.qmd` - Discrete Binomial(5, 0.10) population.
+- `05_cauchy.qmd` - Heavy-tailed Cauchy population without a finite ordinary mean or variance.
 
 ### Additional analyses
 
-- `extra_credit/06_dependent_machine_failure.qmd` — Sequential failure-time process with dependence between observations.
-- `extra_credit/07_non_identical_bernoulli.qmd` — Independent Bernoulli observations with changing success probabilities.
-- `extra_credit/08_life_death_population.qmd` — Custom discrete age-at-death population from ages 0 through 100.
+- `extra_credit/06_dependent_machine_failure.qmd` - Sequential failure-time process with dependence between observations.
+- `extra_credit/07_non_identical_bernoulli.qmd` - Independent Bernoulli observations with changing success probabilities.
+- `extra_credit/08_life_death_population.qmd` - Custom discrete age-at-death population from ages 0 through 100.
 
 ### Shared and summary files
 
@@ -143,4 +139,4 @@ Results should be interpreted in the context of the population's shape and assum
 
 ## Outputs
 
-Rendered HTML files are generated beside their source QMD files. They can be committed to version control so that the generated tables, plots, and interpretations can be viewed without rerunning the simulations.
+Rendered HTML files are generated beside their source QMD files. They can be committed for version control so that the generated tables, plots, and interpretations can be viewed without rerunning the simulations.
