@@ -1,0 +1,78 @@
+---
+title: "Extra Credit: Dependent Machine Failure"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+This population represents a sequence of machine failure times in which observations are dependent. The first failure time is generated from an exponential distribution, but each later failure rate depends on the previous failure time. Therefore, the observations are not independent: an unusually large or small previous failure time affects the distribution of the next observation. This differs from the standard independent and identically distributed setting of the ordinary Central Limit Theorem. The experiment examines whether the sampling distribution of the mean still becomes approximately normal as \(n\) increases and whether dependence causes convergence to occur more slowly.
+
+```{r}
+source("../project1_helpers.R")
+SEED <- 1828
+baseline_rate <- 1
+beta <- 1.25
+reference_time <- 1
+generator <- function(n) {
+  failure_time <- numeric(n)
+  failure_rate <- numeric(n)
+  failure_rate[1] <- baseline_rate
+  failure_time[1] <- rexp(1, rate = failure_rate[1])
+  if (n > 1) for (i in 2:n) {
+    failure_rate[i] <- baseline_rate *
+      exp(beta * (failure_time[i - 1] - reference_time))
+    failure_time[i] <- rexp(1, rate = failure_rate[i])
+  }
+  failure_time
+}
+sample_sizes <- c(5, 10, 20, 30, 50, 100, 200)
+```
+
+```{r}
+set.seed(SEED)
+example <- generator(10000)
+plot(example, type = "l", main = "Example dependent failure sequence",
+     xlab = "Observation", ylab = "Failure-time-like value")
+```
+
+```{r}
+result_means <- lapply(sample_sizes, function(n)
+  simulate_sample_means(generator, n, B = 10000, seed = SEED + n))
+results <- data.frame(
+  population = "Dependent Machine Failure", n = sample_sizes,
+  simulations = 10000,
+  simulated_mean = sapply(result_means, mean),
+  simulated_se = sapply(result_means, sd),
+  skewness = sapply(result_means, skewness_manual),
+  excess_kurtosis = sapply(result_means, kurtosis_excess_manual)
+)
+results$means <- result_means
+results[, names(results) != "means"]
+```
+
+```{r}
+par(mfrow = c(2, 4))
+for (n_value in sample_sizes) {
+  means <- results$means[[which(results$n == n_value)]]
+  hist(means, breaks = 40, probability = TRUE,
+       main = paste("Means, n =", n_value), xlab = "Sample mean",
+       col = "skyblue", border = "white")
+}
+par(mfrow = c(1, 1))
+
+par(mfrow = c(2, 4))
+for (n_value in sample_sizes) {
+  means <- results$means[[which(results$n == n_value)]]
+  qqnorm(means, main = paste("Q-Q plot, n =", n_value))
+  qqline(means, col = "red", lwd = 2)
+}
+par(mfrow = c(1, 1))
+```
+
+## Prediction and Interpretation
+
+Before running the simulation, I predicted that dependence would slow convergence toward normality. I investigated \(n=5,10,20,30,50,100,\) and \(200\).
+
+At n = 5, the sampling distribution is strongly right-skewed and heavy-tailed, with skewness approximately 1.96 and excess kurtosis approximately 6.11. As n increases, both measures decrease: at n = 100, skewness is approximately 0.42 and excess kurtosis is approximately 0.31, while at n = 200, skewness is approximately 0.26 and excess kurtosis is nearly 0. The histograms and Q-Q plots show that the sampling distribution becomes more approximately normal at larger sample sizes, but convergence is slower than in the independent examples. Because dependence violates the usual independent-observation assumption, the ordinary i.i.d. CLT cannot be applied automatically. I select n = 200 as the strongest defensible cutoff. Although \(n=100\) may be reasonably close to normal, \(n=200\) provides stronger and more defensible evidence.

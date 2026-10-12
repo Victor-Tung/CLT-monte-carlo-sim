@@ -1,0 +1,74 @@
+---
+title: "CLT Experiment: Cauchy"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+The standard Cauchy population is a continuous, symmetric, heavy-tailed distribution centered at 0. Although it is symmetric, its tails are much heavier than those of a normal distribution, so extremely large positive or negative observations occur more frequently. Unlike the previous populations, the standard Cauchy distribution does not have a finite ordinary mean or variance. As a result, the usual standard-error formula \(\sigma/\sqrt n\) and the ordinary finite-variance Central Limit Theorem do not apply. This experiment investigates whether increasing the sample size produces a stable, approximately normal distribution of sample means or whether extreme observations continue to dominate the results.
+
+```{r}
+source("project1_helpers.R")
+SEED <- 1828 
+generator <- function(n) rcauchy(n, location = 0, scale = 1)
+sample_sizes <- c(1, 5, 10, 30, 50, 100)
+```
+
+```{r}
+set.seed(SEED)
+population_preview <- rcauchy(10000)
+hist(population_preview[abs(population_preview) < 25], breaks = 80,
+     main = "Cauchy population (display limited to -25 to 25)",
+     xlab = "Value", col = "skyblue", border = "white")
+```
+
+```{r}
+cauchy_means <- lapply(sample_sizes, function(n) {
+  simulate_sample_means(
+    generator,
+    n,
+    B = 10000,
+    seed = SEED + n
+  )
+})
+
+cauchy_results <- data.frame(
+  population = "Cauchy",
+  n = sample_sizes,
+  simulations = 10000,
+  simulated_median = sapply(cauchy_means, median),
+  simulated_mean = sapply(cauchy_means, mean),
+  simulated_sd = sapply(cauchy_means, sd),
+  skewness = sapply(cauchy_means, skewness_manual),
+  excess_kurtosis = sapply(cauchy_means, kurtosis_excess_manual),
+  q025 = sapply(cauchy_means, function(x) {
+    unname(quantile(x, 0.025))
+  }),
+  q975 = sapply(cauchy_means, function(x) {
+    unname(quantile(x, 0.975))
+  })
+)
+
+cauchy_results$means <- cauchy_means
+
+cauchy_results[, names(cauchy_results) != "means"]
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) {
+  means <- cauchy_results$means[[which(cauchy_results$n == n_value)]]
+  hist(means[abs(means) < 25], breaks = 60, probability = TRUE,
+       main = paste("Cauchy means, n =", n_value), xlab = "Sample mean",
+       col = "skyblue", border = "white")
+}
+par(mfrow = c(1, 1))
+```
+
+##  Prediction and Interpretation
+
+Before running the simulation, I predicted that increasing n would not produce a stable approximately normal sampling distribution because the Cauchy population has no finite mean or variance. I investigated n = 1, 5, 10, 30, 50, and 100.
+
+The simulated medians remain close to 0, but the simulated means and standard deviations are highly unstable because extreme observations continue to have a large influence on the sample mean. The skewness and excess kurtosis are also extremely large and unstable, and increasing n does not produce a stable approximately normal sampling distribution. This behavior is consistent with the stability of the Cauchy distribution under averaging, since the mean of Cauchy observations remains "Cauchy-distributed". Therefore, no reasonable finite sample size can be selected for the ordinary CLT in this example.

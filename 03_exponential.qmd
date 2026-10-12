@@ -1,0 +1,52 @@
+---
+title: "CLT Experiment: Exponential"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+The Exponential population with rate \(\lambda=1\) is a continuous distribution for nonnegative values. It is strongly right-skewed, meaning that most observations are relatively small but occasional observations can be much larger. Its theoretical mean and standard deviation are both 1. Because the original population is noticeably non-normal and has a long right tail, this experiment examines how large the sample size must become before the right-skewness is reduced and the sampling distribution of the mean appears approximately normal.
+
+```{r}
+source("project1_helpers.R")
+SEED <- 1828
+lambda <- 1
+generator <- function(n) rexp(n, rate = lambda)
+mu <- 1 / lambda
+sigma <- 1 / lambda
+sample_sizes <- c(1, 5, 10, 30, 50, 100)
+```
+
+```{r}
+set.seed(SEED)
+population_preview <- rexp(10000, rate = lambda)
+hist(population_preview, breaks = 50, probability = TRUE,
+     main = "Exponential population", xlab = "Value",
+     col = "skyblue", border = "white")
+```
+
+```{r}
+results <- run_experiment("Exponential", generator, mu,
+                          function(n) sigma / sqrt(n), sample_sizes, 10000, SEED)
+results_table(results)
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) plot_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) qq_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+## Prediction and Interpretation
+
+Before running the simulation, I predicted that the sampling distribution would require a larger sample size to become approximately normal because the Exponential population is strongly right-skewed. I investigated n = 1, 5, 10, 30, 50, and 100.
+
+The simulated means remain close to 1, and the simulated standard errors agree closely with sigma/sqrt(n). However, the shape of the sampling distribution becomes approximately normal more gradually. Skewness decreases from approximately 2.07 at n = 1 to approximately 0.36 at n = 30, while excess kurtosis decreases from approximately 7.14 to approximately 0.17. The histograms become more symmetric and the Q-Q plots become more nearly linear as n increases. Smaller sample sizes still show noticeable right-skew, while n = 30 provides stronger graphical and numerical evidence of approximate normality. Therefore, I select n = 30 as the smallest defensible sample size.

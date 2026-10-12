@@ -1,0 +1,50 @@
+---
+title: "CLT Experiment: Six-Sided Die"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+The six-sided die population represents the result of rolling a fair die, with possible outcomes from 1 through 6. Each face has an equal probability of \(1/6\), making this a discrete uniform distribution. The population is bounded and symmetric around its theoretical mean of 3.5, but it is not continuous or normally shaped because it only takes six possible values. This experiment investigates how the sample means become smoother and more approximately normal as the number of die rolls in each sample increases.
+
+```{r}
+source("project1_helpers.R")
+SEED <- 1828 
+generator <- function(n) sample(1:6, size = n, replace = TRUE)
+mu <- 3.5
+sigma <- sqrt(35 / 12)
+sample_sizes <- c(1, 5, 10, 30, 50, 100)
+```
+
+```{r}
+set.seed(SEED)
+population_preview <- sample(1:6, 10000, replace = TRUE)
+hist(population_preview, breaks = seq(0.5, 6.5, 1), main = "Die population",
+     xlab = "Face", col = "skyblue", border = "white")
+```
+
+```{r}
+results <- run_experiment("Six-Sided Die", generator, mu,
+                          function(n) sigma / sqrt(n), sample_sizes, 10000, SEED)
+results_table(results)
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) plot_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) qq_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+## Prediction and Interpretation
+
+Before running the simulation, I predicted that the sampling distribution would become more approximately normal as n increased, although the discreteness of the die might remain visible at smaller sample sizes. I investigated n = 1, 5, 10, 30, 50, and 100.
+
+The six-sided die population is discrete and uniform on the values 1 through 6, with theoretical mean 3.5 and standard deviation approximately 1.708. At small sample sizes, the sampling distribution of the mean retains visible discreteness because the sample means can only take certain values. As n increases, the histograms become smoother and more bell-shaped. The simulated means remain close to 3.5, and the simulated standard errors agree closely with sigma/sqrt(n). Skewness is close to 0 throughout the experiment, while excess kurtosis moves from a strongly negative value at n = 1 toward 0 at the larger sample sizes. Although n = 10 could be considered approximately normal based on the numerical diagnostics, n = 30 provides stronger evidence from the histogram, Q-Q plot, and shape statistics. Therefore, I select n = 30 as the smallest conservative sample size.

@@ -1,0 +1,43 @@
+---
+title: "CLT Experiment: Standard Normal"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+The standard normal population is a continuous probability distribution with mean 0 and standard deviation 1. It is symmetric around 0, so values equally far above and below 0 are equally likely. The distribution has no skewness and follows the familiar bell-shaped normal curve. This population provides a baseline because its individual observations are already normally distributed, so the sampling distribution of the sample mean should be normal for every sample size, including \(n=1\).
+
+```{r}
+source("project1_helpers.R")
+SEED <- 1828 
+generator <- function(n) rnorm(n, 0, 1)
+mu <- 0
+sigma <- 1
+sample_sizes <- c(1, 5, 10, 30, 50, 100)
+```
+
+```{r}
+results <- run_experiment("Standard Normal", generator, mu,
+                          function(n) sigma / sqrt(n), sample_sizes, 10000, SEED)
+results_table(results)
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) plot_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) qq_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+## Predictions and Interpretations
+
+Before running the simulation, I predicted that the sampling distribution would be approximately normal for every sample size because the original population is already normal. I investigated n = 1, 5, 10, 30, 50, and 100.
+
+The simulated means are all close to 0, and the simulated standard errors agree closely with the theoretical values of sigma/sqrt(n), as shown by the SE ratios being close to 1. The skewness and excess kurtosis remain close to 0 for every sample size, and the histograms and Q-Q plots provide evidence of normality. Therefore, the smallest defensible sample size is n = 1. Increasing n makes the sampling distribution narrower, but it is not needed to make the distribution normal, as expected.

@@ -1,0 +1,71 @@
+---
+title: "Extra Credit: Non-identical Bernoulli Shots"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+This population represents a sequence of Bernoulli trials, such as basketball shots, where each observation records either a success or a failure. The observations are independent, but they are not identically distributed because the success probability changes from 0.90 for earlier observations to 0.50 for later observations. The sample mean represents the overall proportion of successes. Since the probabilities differ, the usual single-population variance formula cannot be used directly; instead, the theoretical standard error must be calculated using the individual probabilities. This experiment examines whether the sampling distribution of the mean becomes approximately normal despite the observations not having the same distribution.
+
+```{r}
+source("../project1_helpers.R")
+SEED <- 1828
+generator <- function(n) {
+  p_values <- seq(0.90, 0.50, length.out = n)
+  rbinom(n, size = 1, prob = p_values)
+}
+theoretical_mean <- function(n) mean(seq(0.90, 0.50, length.out = n))
+theoretical_se <- function(n) {
+  p_values <- seq(0.90, 0.50, length.out = n)
+  sqrt(sum(p_values * (1 - p_values))) / n
+}
+sample_sizes <- c(5, 10, 20, 30, 50, 100, 200)
+```
+
+```{r}
+result_means <- lapply(sample_sizes, function(n)
+  simulate_sample_means(generator, n, B = 10000, seed = SEED + n))
+expected_mean <- sapply(sample_sizes, theoretical_mean)
+expected_se <- sapply(sample_sizes, theoretical_se)
+results <- data.frame(
+  population = "Non-identical Bernoulli", n = sample_sizes,
+  simulations = 10000,
+  simulated_mean = sapply(result_means, mean),
+  theoretical_mean = expected_mean,
+  mean_error = sapply(result_means, mean) - expected_mean,
+  simulated_se = sapply(result_means, sd),
+  theoretical_se = expected_se,
+  se_ratio = sapply(result_means, sd) / expected_se,
+  skewness = sapply(result_means, skewness_manual),
+  excess_kurtosis = sapply(result_means, kurtosis_excess_manual)
+)
+results$means <- result_means
+results[, names(results) != "means"]
+```
+
+```{r}
+par(mfrow = c(2, 4))
+for (n_value in sample_sizes) {
+  means <- results$means[[which(results$n == n_value)]]
+  hist(means, breaks = 40, probability = TRUE,
+       main = paste("Proportions, n =", n_value), xlab = "Sample proportion",
+       col = "skyblue", border = "white")
+}
+par(mfrow = c(1, 1))
+
+par(mfrow = c(2, 4))
+for (n_value in sample_sizes) {
+  means <- results$means[[which(results$n == n_value)]]
+  qqnorm(means, main = paste("Q-Q plot, n =", n_value))
+  qqline(means, col = "red", lwd = 2)
+}
+par(mfrow = c(1, 1))
+```
+
+## Prediction and Interpretation
+
+Before running the simulation, I predicted that the sampling distribution would become approximately normal as \(n\) increased, although changing success probabilities could affect convergence. I investigated \(n=5,10,20,30,50,100,\) and \(200\).
+
+The non-identical Bernoulli(basketball) process represents independent observations whose success probabilities decrease from 0.90 to 0.50, so the observations are independent but not identically distributed. The theoretical mean is approximately 0.70 because the average success probability is 0.70. The simulated means remain very close to the theoretical mean, and the adjusted theoretical standard errors agree closely with the simulated standard errors, with SE ratios near 1 across the sample sizes. The sampling distribution has mild left-skewness at smaller values of n, but the skewness and excess kurtosis move closer to 0 as n increases. The histograms and Q-Q plots provide stronger evidence of approximate normality at n = 30. Therefore, I select n = 30 as a defensible cutoff. This example shows that identical distributions are not required for a normal approximation, but the changing probabilities must be included when calculating the theoretical variance and standard error.

@@ -1,0 +1,60 @@
+---
+title: "Extra Credit: Life/Death Mixture Population"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+This population represents a custom discrete age-at-death distribution with possible ages from 0 through 100. Its probabilities are created by combining two components: an early-death component that places greater probability on younger ages and an adult-age component centered near age 65. The resulting population is bounded and has a finite mean and variance, but it is irregular and asymmetric rather than uniform or normally shaped. This experiment investigates how the unusual shape of the original population affects the sampling distribution of the mean and how quickly the means become approximately normal as the sample size increases.
+
+```{r}
+source("../project1_helpers.R")
+SEED <- 1828
+age <- 0:100
+early_component <- 0.045 * exp(-age / 5)
+adult_component <- 0.030 * exp(-0.5 * ((age - 65) / 10)^2)
+weight <- early_component + adult_component
+probability <- weight / sum(weight)
+rdeath <- function(n) sample(age, size = n, replace = TRUE, prob = probability)
+generator <- rdeath
+mu <- sum(age * probability)
+variance <- sum((age - mu)^2 * probability)
+sigma <- sqrt(variance)
+sample_sizes <- c(5, 10, 20, 30, 50, 100, 200)
+```
+
+```{r}
+set.seed(SEED)
+population_preview <- rdeath(10000)
+hist(population_preview, breaks = 60, probability = TRUE,
+     main = "Life/death mixture population", xlab = "Age-year",
+     col = "skyblue", border = "white")
+```
+
+```{r}
+results <- run_experiment("Custom Life/Death Population", generator, mu,
+                          function(n) sigma / sqrt(n), sample_sizes, 10000, SEED)
+results_table(results)
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) {
+  plot_sampling_distribution(results, n_value)
+}
+par(mfrow = c(1, 1))
+
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) {
+  qq_sampling_distribution(results, n_value)
+}
+par(mfrow = c(1, 1))
+```
+
+## Prediction and Interpretation
+
+Before running the simulation, I predicted that the sampling distribution would become approximately normal as \(n\) increased because the population has a finite mean and variance, although its irregular shape could slow convergence. I investigated \(n=5,10,20,30,50,100,\) and \(200\).
+
+The custom life/death population is a discrete distribution with possible ages from 0 through 100. Its probabilities are created by combining an early-death component concentrated near younger ages with an adult-age component centered near age 65. The resulting population is bounded and has a finite mean and variance, but it is irregular and asymmetric rather than uniform or normally shaped. At smaller sample sizes, the sampling distribution reflects this unusual population shape, including asymmetry caused by the younger-age component. As n increases, the sample means become more concentrated around the theoretical population mean, the histograms become smoother, and the Q-Q plots become more nearly linear. The simulated mean should agree closely with the theoretical mean, while the simulated standard error should approach the theoretical value of sigma/sqrt(n). The skewness and excess kurtosis also move closer to 0 as n increases. Therefore, I select n = 30 as a defensible cutoff because the sampling distribution is substantially smoother and more approximately normal than it is at the smaller sample sizes.

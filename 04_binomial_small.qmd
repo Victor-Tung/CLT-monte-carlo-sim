@@ -1,0 +1,53 @@
+---
+title: "CLT Experiment: Small Binomial"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+The Small Binomial population represents the number of successes in five independent trials, where each trial has a success probability of 0.10. The possible outcomes are the integers 0 through 5, so the population is discrete and bounded. Because successes are relatively uncommon, the distribution has a strong concentration near 0 and a right-skewed shape. This experiment investigates how the discreteness and skewness change when sample means are calculated from increasingly large samples.
+
+```{r}
+source("project1_helpers.R")
+SEED <- 1828
+trials <- 5
+p <- 0.10
+generator <- function(n) rbinom(n, size = trials, prob = p)
+mu <- trials * p
+sigma <- sqrt(trials * p * (1 - p))
+sample_sizes <- c(1, 5, 10, 30, 50, 100)
+```
+
+```{r}
+set.seed(SEED)
+population_preview <- rbinom(10000, size = trials, prob = p)
+hist(population_preview, breaks = seq(-0.5, trials + 0.5, 1),
+     main = "Binomial(5, 0.10) population", xlab = "Number of successes",
+     col = "skyblue", border = "white")
+```
+
+```{r}
+results <- run_experiment("Small Binomial", generator, mu,
+                          function(n) sigma / sqrt(n), sample_sizes, 10000, SEED)
+results_table(results)
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) plot_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+```{r}
+par(mfrow = c(2, 3))
+for (n_value in sample_sizes) qq_sampling_distribution(results, n_value)
+par(mfrow = c(1, 1))
+```
+
+## Prediction and Interpretation
+
+Before running the simulation, I predicted that the sampling distribution would become more approximately normal as n increased, but that the population’s discreteness and right-skewness would slow the process. I investigated n = 1, 5, 10, 30, 50, and 100.
+
+The Small Binomial population is Binomial(5, 0.10), so it is discrete, bounded between 0 and 5, and right-skewed because successes are relatively uncommon. Its theoretical mean is 0.5 and its theoretical standard deviation is approximately 0.671. The simulated means remain close to the theoretical mean, and the simulated standard errors agree closely with the theoretical standard errors. However, the sampling distributions at smaller values of n retain visible discreteness and right-skewness. Skewness decreases from approximately 1.18 at n = 1 to approximately 0.55 at n = 5, 0.37 at n = 10, and 0.21 at n = 30. Excess kurtosis is close to 0 by n = 10, but some right-skew and discreteness remain. At n = 30, the histogram is smoother, the Q-Q plot is more nearly linear, and the numerical diagnostics provide stronger evidence of approximate normality. Therefore, I select n = 30 as the smallest safe sample size.
