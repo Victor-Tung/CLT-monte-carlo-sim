@@ -139,4 +139,4 @@ Results should be interpreted in the context of the population's shape and assum
 
 ## Outputs
 
-Rendered HTML files are generated beside their source QMD files. They can be committed to version control so that the generated tables, plots, and interpretations can be viewed without rerunning the simulations.
+Rendered HTML files are generated beside their source QMD files. They can be committed for version control so that the generated tables, plots, and interpretations can be viewed without rerunning the simulations.
