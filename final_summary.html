@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Project 1 — Final Summary</title>
+<title>Project 1 - Final Summary</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -49,7 +49,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Project 1 — Final Summary</h1>
+<h1 class="title">Project 1 - Final Summary</h1>
 </div>
 
 
@@ -72,7 +72,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="how-approximate-normality-was-judged" class="level2">
 <h2 class="anchored" data-anchor-id="how-approximate-normality-was-judged">How Approximate Normality Was Judged</h2>
-<p>I used several forms of evidence rather than relying on one rule or only visually inspecting the graphs. For each sample size, I examined the histogram, normal Q-Q plot, skewness, excess kurtosis, simulated mean, theoretical mean, simulated standard error, theoretical standard error, and the ratio of simulated to theoretical standard error. I selected the smallest sample size for which the graphical and numerical evidence were reasonably consistent with approximate normality.</p>
+<p>I used several forms of evidence rather than relying on one rule or only visually inspecting the graphs. For each population, I generated 10,000 repeated samples at several sample sizes and calculated the sample mean for each repetition. I evaluated approximate normality using histograms, normal Q-Q plots, skewness, excess kurtosis, simulated and theoretical means, simulated and theoretical standard errors, and the SE ratio. I selected the smallest sample size for which the graphical and numerical evidence were reasonably consistent with approximate normality. The SE ratio assessed whether the spread of the simulated sample means agreed with theory, while the graphical diagnostics and shape statistics provided evidence about normality.</p>
 </section>
 <section id="required-distribution-results" class="level2">
 <h2 class="anchored" data-anchor-id="required-distribution-results">Required-Distribution Results</h2>
@@ -114,7 +114,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">0.0000</td>
 <td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">-0.0055</td>
-<td style="text-align: right;">0.0055</td>
+<td style="text-align: right;">-0.0055</td>
 <td style="text-align: right;">1.0069</td>
 <td style="text-align: right;">1.0000</td>
 <td style="text-align: right;">1.0069</td>
@@ -130,8 +130,8 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">3.5020</td>
 <td style="text-align: right;">0.0020</td>
 <td style="text-align: right;">0.3168</td>
-<td style="text-align: right;">0.3117</td>
-<td style="text-align: right;">1.0164</td>
+<td style="text-align: right;">0.3118</td>
+<td style="text-align: right;">1.0161</td>
 <td style="text-align: right;">0.0203</td>
 <td style="text-align: right;">0.0049</td>
 <td>Bounded and symmetric; sampling distribution is approximately normal at n = 30</td>
@@ -155,13 +155,13 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">30</td>
 <td style="text-align: right;">0.5000</td>
 <td style="text-align: right;">0.6708</td>
-<td style="text-align: right;">0.5004</td>
-<td style="text-align: right;">0.0004</td>
-<td style="text-align: right;">0.1233</td>
+<td style="text-align: right;">0.4985</td>
+<td style="text-align: right;">-0.0015</td>
+<td style="text-align: right;">0.1224</td>
 <td style="text-align: right;">0.1225</td>
-<td style="text-align: right;">1.0065</td>
-<td style="text-align: right;">0.2141</td>
-<td style="text-align: right;">0.0222</td>
+<td style="text-align: right;">0.9995</td>
+<td style="text-align: right;">0.1885</td>
+<td style="text-align: right;">0.0262</td>
 <td>Skewness and discreteness are reduced; approximate normality is reasonable at n = 30</td>
 </tr>
 <tr class="odd">
@@ -180,7 +180,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The standard normal population was approximately normal immediately because the original population was already normal. The die, exponential, and small binomial populations required larger sample sizes because they were discrete or skewed. The Cauchy population did not produce a stable approximately normal sampling distribution because it does not have a finite ordinary mean or variance.</p>
+<p>The standard normal population was approximately normal immediately because the original population was already normal. The die, exponential, and small binomial populations showed stronger evidence of approximate normality at larger sample sizes because they were discrete or skewed. I selected n = 30 as a defensible cutoff for these populations. The Cauchy population did not produce a stable approximately normal sampling distribution because it does not have a finite ordinary mean or variance.</p>
 </section>
 <section id="extra-credit-results" class="level2">
 <h2 class="anchored" data-anchor-id="extra-credit-results">Extra-Credit Results</h2>
@@ -215,15 +215,15 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
-<p>The dependent machine-failure process required a larger sample size because each observation was influenced by the previous one. The non-identical Bernoulli process became approximately normal at a smaller sample size when the changing success probabilities were included in the theoretical variance calculation. The custom life/death population became smoother and more symmetric as the sample size increased.</p>
+<p>The dependent machine-failure process showed stronger evidence of approximate normality at n = 200 because each observation was influenced by the previous one. The non-identical Bernoulli process showed reasonable approximate normality at n = 30 when the changing success probabilities were included in the theoretical variance calculation.</p>
 </section>
 <section id="is-n-30-a-universal-rule" class="level2">
 <h2 class="anchored" data-anchor-id="is-n-30-a-universal-rule">Is n = 30 a Universal Rule?</h2>
-<p>The final results do not support treating n = 30 as a universal guarantee. It is a useful rule of thumb for several finite-mean and finite-variance populations, but the speed of convergence depends on the original population. The standard normal population was approximately normal at n = 1, while the die, exponential, small binomial, and custom life/death populations required larger sample sizes. The dependent machine-failure process required an even larger sample size because the observations were not independent. The Cauchy case was an important exception because increasing n did not overcome the lack of a finite mean and variance.</p>
+<p>The final results do not support treating (n = 30) as a universal guarantee. It is a useful rule of thumb for several finite-mean and finite-variance populations, but the speed of convergence depends on the original population. The standard normal population was approximately normal at (n = 1), while the die, exponential, small binomial, and custom life/death populations showed stronger evidence of approximate normality at larger sample sizes. The dependent machine-failure process showed the strongest evidence at (n = 200) because the observations were not independent. The Cauchy case was an important exception because increasing (n) did not overcome the lack of a finite mean and variance.</p>
 </section>
 <section id="which-populations-converged-fastest-and-slowest" class="level2">
 <h2 class="anchored" data-anchor-id="which-populations-converged-fastest-and-slowest">Which Populations Converged Fastest and Slowest?</h2>
-<p>The standard normal population converged immediately because it was already normally distributed. The six-sided die population also converged relatively quickly because it was symmetric and bounded, although it remained discrete at smaller sample sizes. The exponential and small binomial populations converged more gradually because they were right-skewed. The custom life/death population also required additional sample size because it had an irregular and asymmetric shape. The dependent machine-failure process converged more slowly because observations influenced one another. The Cauchy population did not converge to an ordinary normal sampling distribution because extreme values continued to affect the sample mean. Within the displayed range, its histograms remained broadly similar across sample sizes, while the numerical results showed that its mean and tail behavior remained unstable.</p>
+<p>The standard normal population converged immediately because it was already normally distributed. The six-sided die population also converged relatively quickly because it was symmetric and bounded, although it remained discrete at smaller sample sizes. The exponential and small binomial populations converged more gradually because they were right-skewed. The custom life/death population showed stronger evidence of approximate normality around n = 30 because it had an irregular and asymmetric shape. The dependent machine-failure process converged more slowly because observations influenced one another. The Cauchy population did not converge to an ordinary normal sampling distribution because extreme values continued to affect the sample mean. Within the displayed range, its histograms remained broadly similar across sample sizes, while the numerical results showed that its mean and tail behavior remained unstable.</p>
 </section>
 <section id="what-happened-when-clt-assumptions-were-violated" class="level2">
 <h2 class="anchored" data-anchor-id="what-happened-when-clt-assumptions-were-violated">What Happened When CLT Assumptions Were Violated?</h2>
@@ -235,7 +235,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="final-takeaway" class="level2">
 <h2 class="anchored" data-anchor-id="final-takeaway">Final Takeaway</h2>
-<p>The simulations showed that there is no single sample size that works equally well for every population. The standard normal population was approximately normal at n = 1, while the die, exponential, small binomial, and custom life/death populations generally required around n = 30. The dependent machine-failure process required a larger sample size because observations influenced one another, while the non-identical Bernoulli process became approximately normal at n = 30 when its changing probabilities were included in the calculations. The Cauchy population did not become stable because extreme values continued to affect the sample mean. Overall, the results show that the appropriate sample size depends on the data-generating process, so decisions should be based on the observed simulations and diagnostics rather than automatically using n = 30.</p>
+<p>The simulations showed that there is no universal sample size that guarantees an approximately normal sampling distribution. For each population, I generated repeated samples at several sample sizes and evaluated the resulting sample means using graphical and numerical evidence. The standard normal population was approximately normal immediately at (n=1). The six-sided die, exponential, small binomial, and custom life/death populations showed stronger evidence of approximate normality around (n=30), which I selected as a defensible cutoff rather than a universal rule.</p>
+<p>The most surprising result was that increasing the sample size did not stabilize the Cauchy sampling distribution because the Cauchy population has no finite ordinary mean or variance. The dependent machine-failure process also converged more slowly because observations influenced one another, with (n=200) providing the strongest evidence of approximate normality. In contrast, the non-identical Bernoulli process became approximately normal around (n=30) when the changing success probabilities were correctly included in the theoretical variance and standard-error calculations.</p>
+<p>Overall, the results demonstrate that the appropriate sample size depends on the population’s shape, variability, and dependence structure. Therefore, researchers should evaluate the observed sampling distribution using simulations, graphical diagnostics, skewness, kurtosis, and standard-error comparisons instead of automatically assuming that (n=30) will always be sufficient.</p>
 </section>
 
 </main>

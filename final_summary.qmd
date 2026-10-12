@@ -1,5 +1,5 @@
 ---
-title: "Project 1 — Final Summary"
+title: "Project 1 - Final Summary"
 format: html
 execute:
   echo: true
@@ -13,19 +13,19 @@ The goal of this project was to investigate how quickly the sampling distributio
 
 ## How Approximate Normality Was Judged
 
-I used several forms of evidence rather than relying on one rule or only visually inspecting the graphs. For each sample size, I examined the histogram, normal Q-Q plot, skewness, excess kurtosis, simulated mean, theoretical mean, simulated standard error, theoretical standard error, and the ratio of simulated to theoretical standard error. I selected the smallest sample size for which the graphical and numerical evidence were reasonably consistent with approximate normality.
+I used several forms of evidence rather than relying on one rule or only visually inspecting the graphs. For each population, I generated 10,000 repeated samples at several sample sizes and calculated the sample mean for each repetition. I evaluated approximate normality using histograms, normal Q-Q plots, skewness, excess kurtosis, simulated and theoretical means, simulated and theoretical standard errors, and the SE ratio. I selected the smallest sample size for which the graphical and numerical evidence were reasonably consistent with approximate normality. The SE ratio assessed whether the spread of the simulated sample means agreed with theory, while the graphical diagnostics and shape statistics provided evidence about normality.
 
 ## Required-Distribution Results
 
 | Population | Selected n | Theoretical mean | Theoretical SD | Simulated mean | Mean error | Simulated SE | Theoretical SE | SE ratio | Skewness | Excess kurtosis | Normality evidence / conclusion |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| Standard Normal | 1 | 0.0000 | 1.0000 | -0.0055 | 0.0055 | 1.0069 | 1.0000 | 1.0069 | -0.0181 | 0.0368 | Approximately normal immediately; histogram and Q-Q plot are consistent with normality |
-| Six-Sided Die | 30 | 3.5000 | 1.7078 | 3.5020 | 0.0020 | 0.3168 | 0.3117 | 1.0164 | 0.0203 | 0.0049 | Bounded and symmetric; sampling distribution is approximately normal at n = 30 |
+| Standard Normal | 1 | 0.0000 | 1.0000 | -0.0055 | -0.0055 | 1.0069 | 1.0000 | 1.0069 | -0.0181 | 0.0368 | Approximately normal immediately; histogram and Q-Q plot are consistent with normality |
+| Six-Sided Die | 30 | 3.5000 | 1.7078 | 3.5020 | 0.0020 | 0.3168 | 0.3118 | 1.0161 | 0.0203 | 0.0049 | Bounded and symmetric; sampling distribution is approximately normal at n = 30 |
 | Exponential | 30 | 1.0000 | 1.0000 | 1.0013 | 0.0013 | 0.1827 | 0.1826 | 1.0007 | 0.3581 | 0.1738 | Right-skew is reduced substantially; approximate normality is reasonable at n = 30 |
-| Small Binomial | 30 | 0.5000 | 0.6708 | 0.5004 | 0.0004 | 0.1233 | 0.1225 | 1.0065 | 0.2141 | 0.0222 | Skewness and discreteness are reduced; approximate normality is reasonable at n = 30 |
+| Small Binomial | 30 | 0.5000 | 0.6708 | 0.4985 | -0.0015 | 0.1224 | 0.1225 | 0.9995 | 0.1885 | 0.0262 | Skewness and discreteness are reduced; approximate normality is reasonable at n = 30 |
 | Cauchy | Not applicable | Undefined | Undefined | Unstable | Unstable | Unstable | Undefined | Not applicable | Unstable | Unstable | No ordinary CLT cutoff; the Cauchy distribution has no finite mean or variance |
 
-The standard normal population was approximately normal immediately because the original population was already normal. The die, exponential, and small binomial populations required larger sample sizes because they were discrete or skewed. The Cauchy population did not produce a stable approximately normal sampling distribution because it does not have a finite ordinary mean or variance.
+The standard normal population was approximately normal immediately because the original population was already normal. The die, exponential, and small binomial populations showed stronger evidence of approximate normality at larger sample sizes because they were discrete or skewed. I selected n = 30 as a defensible cutoff for these populations. The Cauchy population did not produce a stable approximately normal sampling distribution because it does not have a finite ordinary mean or variance.
 
 ## Extra-Credit Results
 
@@ -35,15 +35,15 @@ The standard normal population was approximately normal immediately because the 
 | Non-Identical Bernoulli | 30 | Approximate normality is reasonable when the adjusted SE is used |
 | Custom Life/Death Population | 30 | The irregular population shape becomes less influential as n increases |
 
-The dependent machine-failure process required a larger sample size because each observation was influenced by the previous one. The non-identical Bernoulli process became approximately normal at a smaller sample size when the changing success probabilities were included in the theoretical variance calculation. The custom life/death population became smoother and more symmetric as the sample size increased.
+The dependent machine-failure process showed stronger evidence of approximate normality at n = 200 because each observation was influenced by the previous one. The non-identical Bernoulli process showed reasonable approximate normality at n = 30 when the changing success probabilities were included in the theoretical variance calculation.
 
 ## Is n = 30 a Universal Rule?
 
-The final results do not support treating n = 30 as a universal guarantee. It is a useful rule of thumb for several finite-mean and finite-variance populations, but the speed of convergence depends on the original population. The standard normal population was approximately normal at n = 1, while the die, exponential, small binomial, and custom life/death populations required larger sample sizes. The dependent machine-failure process required an even larger sample size because the observations were not independent. The Cauchy case was an important exception because increasing n did not overcome the lack of a finite mean and variance.
+The final results do not support treating \(n = 30\) as a universal guarantee. It is a useful rule of thumb for several finite-mean and finite-variance populations, but the speed of convergence depends on the original population. The standard normal population was approximately normal at \(n = 1\), while the die, exponential, small binomial, and custom life/death populations showed stronger evidence of approximate normality at larger sample sizes. The dependent machine-failure process showed the strongest evidence at \(n = 200\) because the observations were not independent. The Cauchy case was an important exception because increasing \(n\) did not overcome the lack of a finite mean and variance.
 
 ## Which Populations Converged Fastest and Slowest?
 
-The standard normal population converged immediately because it was already normally distributed. The six-sided die population also converged relatively quickly because it was symmetric and bounded, although it remained discrete at smaller sample sizes. The exponential and small binomial populations converged more gradually because they were right-skewed. The custom life/death population also required additional sample size because it had an irregular and asymmetric shape. The dependent machine-failure process converged more slowly because observations influenced one another. The Cauchy population did not converge to an ordinary normal sampling distribution because extreme values continued to affect the sample mean. Within the displayed range, its histograms remained broadly similar across sample sizes, while the numerical results showed that its mean and tail behavior remained unstable.
+The standard normal population converged immediately because it was already normally distributed. The six-sided die population also converged relatively quickly because it was symmetric and bounded, although it remained discrete at smaller sample sizes. The exponential and small binomial populations converged more gradually because they were right-skewed. The custom life/death population showed stronger evidence of approximate normality around n = 30 because it had an irregular and asymmetric shape. The dependent machine-failure process converged more slowly because observations influenced one another. The Cauchy population did not converge to an ordinary normal sampling distribution because extreme values continued to affect the sample mean. Within the displayed range, its histograms remained broadly similar across sample sizes, while the numerical results showed that its mean and tail behavior remained unstable.
 
 ## What Happened When CLT Assumptions Were Violated?
 
@@ -55,4 +55,8 @@ The simulations use a seed based on the last four digits of my student ID so tha
 
 ## Final Takeaway
 
-The simulations showed that there is no single sample size that works equally well for every population. The standard normal population was approximately normal at n = 1, while the die, exponential, small binomial, and custom life/death populations generally required around n = 30. The dependent machine-failure process required a larger sample size because observations influenced one another, while the non-identical Bernoulli process became approximately normal at n = 30 when its changing probabilities were included in the calculations. The Cauchy population did not become stable because extreme values continued to affect the sample mean. Overall, the results show that the appropriate sample size depends on the data-generating process, so decisions should be based on the observed simulations and diagnostics rather than automatically using n = 30.
+The simulations showed that there is no universal sample size that guarantees an approximately normal sampling distribution. For each population, I generated repeated samples at several sample sizes and evaluated the resulting sample means using graphical and numerical evidence. The standard normal population was approximately normal immediately at \(n=1\). The six-sided die, exponential, small binomial, and custom life/death populations showed stronger evidence of approximate normality around \(n=30\), which I selected as a defensible cutoff rather than a universal rule.
+
+The most surprising result was that increasing the sample size did not stabilize the Cauchy sampling distribution because the Cauchy population has no finite ordinary mean or variance. The dependent machine-failure process also converged more slowly because observations influenced one another, with \(n=200\) providing the strongest evidence of approximate normality. In contrast, the non-identical Bernoulli process became approximately normal around \(n=30\) when the changing success probabilities were correctly included in the theoretical variance and standard-error calculations.
+
+Overall, the results demonstrate that the appropriate sample size depends on the population’s shape, variability, and dependence structure. Therefore, researchers should evaluate the observed sampling distribution using simulations, graphical diagnostics, skewness, kurtosis, and standard-error comparisons instead of automatically assuming that \(n=30\) will always be sufficient.
