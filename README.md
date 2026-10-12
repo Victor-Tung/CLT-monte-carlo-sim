@@ -13,9 +13,9 @@ R-based Monte Carlo study of how fast sampling distributions approach normality 
 
 ### Additional analyses
 
-- `extra_credit/06_dependent_machine_failure.qmd` — Sequential failure-time process with dependence between observations.
-- `extra_credit/07_non_identical_bernoulli.qmd` — Independent Bernoulli observations with changing success probabilities.
-- `extra_credit/08_life_death_population.qmd` — Custom discrete age-at-death population from ages 0 through 100.
+- `extra_credit/06_dependent_machine_failure.qmd` - Sequential failure-time process with dependence between observations.
+- `extra_credit/07_non_identical_bernoulli.qmd` - Independent Bernoulli observations with changing success probabilities.
+- `extra_credit/08_life_death_population.qmd` - Custom discrete age-at-death population from ages 0 through 100.
 
 ### Shared and summary files
 
