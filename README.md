@@ -1,19 +1,15 @@
 # CLT-monte-carlo-sim
-R-based Monte Carlo study of how fast sampling distributions approach normality across distributions, sample sizes, and dependence
-
-## Overview
-
-The analyses compare symmetric, discrete, skewed, heavy-tailed, dependent, non-identically distributed, and irregular populations. Each analysis generates numerical summaries and visual diagnostics for evaluating how closely the sampling distribution resembles a normal distribution.
+R-based Monte Carlo study of how fast sampling distributions approach normality across distributions, sample sizes, and dependence. The analyses compare symmetric, discrete, skewed, heavy-tailed, dependent, non-identically distributed, and irregular populations. Each analysis generates numerical summaries and visual diagnostics for evaluating how closely the sampling distribution resembles a normal distribution.
 
 ## Repository Contents
 
 ### Core analyses
 
-- `01_standard_normal.qmd` — Normal population baseline.
-- `02_six_sided_die.qmd` — Discrete uniform population from 1 through 6.
-- `03_exponential.qmd` — Right-skewed Exponential population with rate 1.
-- `04_binomial_small.qmd` — Discrete Binomial(5, 0.10) population.
-- `05_cauchy.qmd` — Heavy-tailed Cauchy population without a finite ordinary mean or variance.
+- `01_standard_normal.qmd` - Normal population baseline.
+- `02_six_sided_die.qmd` - Discrete uniform population from 1 through 6.
+- `03_exponential.qmd` - Right-skewed Exponential population with rate 1.
+- `04_binomial_small.qmd` - Discrete Binomial(5, 0.10) population.
+- `05_cauchy.qmd` - Heavy-tailed Cauchy population without a finite ordinary mean or variance.
 
 ### Additional analyses
 
